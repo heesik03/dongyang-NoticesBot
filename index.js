@@ -10,13 +10,15 @@ const client = new Client({ intents: [
     GatewayIntentBits.MessageContent,
 ]});
 const alarmInterval = 3600000; // setInterval 의 시간
+let koreaTime = DateTime.now().setZone('Asia/Seoul');
+let formattedTime = koreaTime.toFormat('yyyy-LL-dd HH:mm');
 
 client.once(Events.ClientReady, readyClient => { 
     console.log(`✅ ${readyClient.user.tag} 로그인 성공 `);
 
     setInterval(async () => { // 1시간 마다 메세지 보냄
-        const koreaTime = DateTime.now().setZone('Asia/Seoul');
-        const formattedTime = koreaTime.toFormat('yyyy-LL-dd HH:mm');
+        koreaTime = DateTime.now().setZone('Asia/Seoul');
+        formattedTime = koreaTime.toFormat('yyyy-LL-dd HH:mm');
         const channel = client.channels.cache.get(process.env.DISCORD_CHANNEL_ID); // 공지를 보낼 채널 ID
         if (!channel) {
             console.error("❌ 채널을 찾을 수 없습니다.");
@@ -36,8 +38,8 @@ client.once(Events.ClientReady, readyClient => {
 }); 
 
 client.on('messageCreate', async (message) => { // !공지 입력 시 첫번째 공지사항 출력
-    const koreaTime = DateTime.now().setZone('Asia/Seoul');
-    const formattedTime = koreaTime.toFormat('yyyy-LL-dd HH:mm');
+    koreaTime = DateTime.now().setZone('Asia/Seoul');
+    formattedTime = koreaTime.toFormat('yyyy-LL-dd HH:mm');
     if (message.content === "!공지") {
         const { saveFirstTitle, saveFirstTitleLink } = await getDongyangNotices();
         const { saveComputerTitle , departmnetLink } = await getDepartmnetNotices();
