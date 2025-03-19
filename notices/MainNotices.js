@@ -8,15 +8,15 @@ const getDongyangNotices = async () => {
         const dongyangLink = `https://www.dongyang.ac.kr` 
         const dongyang = await axios.get(dongyangLink + `/dmu/4904/subview.do`);
         const $ = cheerio.load(dongyang.data); // 공지사항 페이지 크롤링
-        const NoticeList = $(".board-table tbody tr:not(.notice)"); // notice 클래스는 제외
+        const noticeList = $(".board-table tbody tr:not(.notice)"); // notice 클래스는 제외
 
-        const firstTitle = NoticeList.first().find(".td-subject a strong").text().trim(); // 첫 번째 제목
-        const firstTitleLink = dongyangLink + NoticeList.first().find(".td-subject a").attr("href") // 첫 번째 링크
+        const firstTitle = noticeList.first().find(".td-subject a strong").text().trim(); // 첫 번째 제목
+        const firstTitleLink = dongyangLink + noticeList.first().find(".td-subject a").attr("href") // 첫 번째 링크
         const newTitle = []; // 새로운 제목(들) 저장
         const newLink = []; // 새로운 제목(들) 링크 저장
         let allNotices = []; // 모든 공지사항 저장
 
-        NoticeList.each((index, e) => {  // 모든 공지사항 allNotices에 저장 (index+1로 넘버링)
+        noticeList.each((index, e) => {  // 모든 공지사항 allNotices에 저장 (index+1로 넘버링)
             const titleAll = $(e).find(".td-subject a strong").text().trim();
             if (titleAll) { 
                 allNotices.push(`${index+1}. ${titleAll}`);
@@ -30,7 +30,7 @@ const getDongyangNotices = async () => {
             if (saveFirstTitle===null || saveFirstTitleLink===null) // 저장된 첫번째 제목이나 링크가 null일때
                 saveFirstTitle = firstTitle;
                 saveFirstTitleLink = firstTitleLink;
-            NoticeList.each((index , title) => {
+            noticeList.each((index , title) => {
                 const noticeTitle = $(title).find(".td-subject a strong").text().trim(); 
                 const noticeLink = $(title).find(".td-subject a").attr("href"); 
                 if (noticeTitle===saveFirstTitle) { // 순회 중인 제목이 저장된 첫번째 제목과 같을 시

@@ -9,12 +9,12 @@ const client = new Client({ intents: [
     GatewayIntentBits.GuildMessages,
     GatewayIntentBits.MessageContent,
 ]});
-const alarmInterval = 100000; // setInterval 의 시간 3600000
+const alarmInterval = 3600000; // setInterval 의 시간
 
 client.once(Events.ClientReady, readyClient => { 
     console.log(`✅ ${readyClient.user.tag} 로그인 성공 `);
 
-    setInterval(async () => { // 30분마다 메세지 보냄
+    setInterval(async () => { // 1시간 마다 메세지 보냄
         const koreaTime = DateTime.now().setZone('Asia/Seoul');
         const formattedTime = koreaTime.toFormat('yyyy-LL-dd HH:mm');
         const channel = client.channels.cache.get(process.env.DISCORD_CHANNEL_ID); // 공지를 보낼 채널 ID
