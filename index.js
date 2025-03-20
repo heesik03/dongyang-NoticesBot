@@ -5,9 +5,9 @@ const { DateTime } = require("luxon");
 require("dotenv").config();  // env 연결
 
 const client = new Client({ intents: [
-    GatewayIntentBits.Guilds, 
-    GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent,
+    GatewayIntentBits.Guilds, //서버 관련 이벤드 수신
+    GatewayIntentBits.GuildMessages, // 서버에서 발생하는 메시지 이벤트를 수신할 수 있도록 함
+    GatewayIntentBits.MessageContent, // 메시지의 내용을 읽을 수 있도록 허용함
 ]});
 const alarmInterval = 3600000; // setInterval 의 시간
 let koreaTime = DateTime.now().setZone('Asia/Seoul');
