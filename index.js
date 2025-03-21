@@ -15,7 +15,7 @@ let koreaTime = DateTime.now().setZone('Asia/Seoul');
 let formattedTime = koreaTime.toFormat('yyyy-LL-dd HH:mm');
 
 try {
-    StartServer();
+    StartServer(); // 서버 연결
     client.once(Events.ClientReady, readyClient => { 
         console.log(`✅ ${readyClient.user.tag} 로그인 성공 `);
     
@@ -31,9 +31,9 @@ try {
             const { newTitle , newLink } = await getDongyangNotices();
             const { computerTitle , departmnetLink } = await getDepartmnetNotices();
             if (newTitle.length > 0) {
-                channel.send(`📢 새로운 공지사항이 있습니다! (${formattedTime}) \n\n ${newTitle.join("\n")} \n ${newLink.join("\n")} `);
+                channel.send(`🔔 새로운 공지사항이 있습니다! (${formattedTime}) \n\n ${newTitle.join("\n")} \n ${newLink.join("\n")} `);
             } else if (computerTitle.length > 0) {
-                channel.send(`🖥 새로운 학과 공지사항이 있습니다! (${formattedTime}) \n\n ${computerTitle.join("\n")} \n ${departmnetLink} `);
+                channel.send(`🔔 새로운 학과 공지사항이 있습니다! (${formattedTime}) \n\n ${computerTitle.join("\n")} \n ${departmnetLink} `);
             } else {
                 channel.send(`❌ 갱신된 공지사항이 없습니다 (${formattedTime})`);
             }
@@ -47,12 +47,19 @@ try {
             const { saveFirstTitle, saveFirstTitleLink } = await getDongyangNotices();
             const { saveComputerTitle , departmnetLink } = await getDepartmnetNotices();
             message.reply(`📢 최근 공지사항 (${formattedTime}) :  ${saveFirstTitle} ${saveFirstTitleLink} \n 🖥 최근 학과 공지사항:  ${saveComputerTitle} ${departmnetLink}`);
-        } else if (message.content === "!전부") {
+        } else if (message.content === "!전부" || message.content === "!모두") {
             const { allNotices } = await getDongyangNotices();
-            message.reply(`📢 최근 공지사항 모음 (${formattedTime}) : \n ${allNotices.join("\n")}`);
-        } else if (message.content === "!학과") {
+            message.reply(`📣 최근 공지사항 모음 (${formattedTime}) : \n ${allNotices.join("\n")}`);
+        } else if (message.content === "!학과" || message.content === "!컴소") {
             const { allComputerTitle } = await getDepartmnetNotices();
             message.reply(`🖥 최근 컴퓨터소프트웨어과 공지사항 모음 (${formattedTime}) : \n ${allComputerTitle.join("\n")}`);
+        } else if (message.content === "!명령" || message.content === "!명령어") {
+            message.reply(`
+                📚 명령어 목록 
+                📢 공지 : 최근 학교, 학과 공지사항 출력 
+                📣 전부, 모두 : 최근 학교 공지사항 전부 출력
+                🖥 학과, 컴소 : 최근 학과 공지사항 전부 출력
+            `);
         }
     });
     
