@@ -1,3 +1,4 @@
+const StartServer = require("./server");
 const { getDongyangNotices } = require("./notices/MainNotices");
 const { getDepartmnetNotices } = require("./notices/DepartmentNotices");
 const { Client, Events, GatewayIntentBits } = require('discord.js');
@@ -14,6 +15,7 @@ let koreaTime = DateTime.now().setZone('Asia/Seoul');
 let formattedTime = koreaTime.toFormat('yyyy-LL-dd HH:mm');
 
 try {
+    StartServer();
     client.once(Events.ClientReady, readyClient => { 
         console.log(`✅ ${readyClient.user.tag} 로그인 성공 `);
     
