@@ -35,7 +35,7 @@ try {
             } else if (computerTitle.length > 0) {
                 channel.send(`🔔 새로운 학과 공지사항이 있습니다! (${formattedTime}) \n\n ${computerTitle.join("\n")} \n ${departmnetLink} `);
             } else {
-                channel.send(`❌ 갱신된 공지사항이 없습니다 (${formattedTime})`);
+                console.log(`❌ 갱신된 공지사항이 없습니다`);
             }
         }, alarmInterval);
     }); 
