@@ -10,7 +10,7 @@ const client = new Client({ intents: [
     GatewayIntentBits.GuildMessages, // 서버에서 발생하는 메시지 이벤트를 수신할 수 있도록 함
     GatewayIntentBits.MessageContent, // 메시지의 내용을 읽을 수 있도록 허용함
 ]});
-const alarmInterval = 60000; // setInterval 의 시간
+const alarmInterval = 1800000; // setInterval 의 시간
 let koreaTime = DateTime.now().setZone('Asia/Seoul');
 let formattedTime = koreaTime.toFormat('yyyy-LL-dd HH:mm');
 
